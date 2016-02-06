@@ -2,27 +2,14 @@
 
 
 <div class="container">
-    <div class="row">
-        <div class="col-xs-12">
-            <h1 class="page-header">In the pocket</h1>
-
-            Repeat: <span> {{sentenceToSay}} </span>
-
-
-            <div ng-show="results.length > 0">
-                <button class="btn btn-default" ng-click="clearResults()">Clear</button>
-
-                <hr/>
-
-                <ul class="list-group">
-                    <li class="list-group-item" ng-repeat="result in results">
-                        <span class="badge">{{ result.date | date : 'EEE MMM, yyyy hh:mm:ss a' }}</span>
-                        {{ result.content }}
-                    </li>
-                </ul>
-            </div>
+        <h1 class="title">In the pocket</h1>
+        <div class="text">
+            
+            <p>
+                <span> {{sentenceToSay}} </span>
+                <br/>
+                <br/>
+                <span ng-repeat="(key,value) in result track by $index" class="response" ng-class="{'error': value!=sentenceWords[key]}">{{value}} </span>
+            </p>
         </div>
-    </div>
 </div>
-
-<footer></footer>

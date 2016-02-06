@@ -5,7 +5,8 @@ angular.module('inThePocketApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
-  'ui.router'
+  'ui.router',
+  'digitalbs.speech'
 ])
   .config(function($urlRouterProvider, $locationProvider) {
     $urlRouterProvider
