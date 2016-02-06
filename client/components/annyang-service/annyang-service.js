@@ -32,6 +32,12 @@
         service.stop = function(){
             annyang.abort();
         }
+        service.pause = function(){
+            annyang.pause();
+        }
+        service.resume = function(){
+            annyang.resume();
+        }
         return service;
     }
 

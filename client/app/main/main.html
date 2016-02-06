@@ -1,15 +1,26 @@
 
 
 
-<div class="container">
-        <h1 class="title">In the pocket</h1>
-        <div class="text">
-            
-            <p>
-                <span> {{sentenceToSay}} </span>
-                <br/>
-                <br/>
-                <span ng-repeat="(key,value) in result track by $index" class="response" ng-class="{'error': value!=sentenceWords[key]}">{{value}} </span>
-            </p>
-        </div>
+<div class="container col-xs-12">
+	<h1 class="title">In the pocket</h1>
+	<div ng-hide="launched">
+		<div class="text">		    
+			<p>
+		    <span> Ready to practice pronunciation?</span>
+		    <div class="launch" ng-click="launch()">Launch!</div>
+		    <span class="tips">You can say "Repeat" to heard to last sentence again and "Skip" to pass to an other sentence.</span>
+		  </p>
+		</div>		
+	</div>
+	<div ng-show="launched">
+		<div class="text">
+		    
+		    <p>
+		        <span> {{sentenceToSay}} </span>
+		        <br/>
+		        <br/>
+		        <span ng-repeat="(key,value) in result track by $index" class="response" ng-class="{'error': value!=sentenceWords[key]}">{{value}} </span>
+		    </p>
+		</div>
+	</div>
 </div>

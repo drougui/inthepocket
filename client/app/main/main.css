@@ -10,9 +10,10 @@ body{
 }
 .text{
   padding-top: 15%;
-  font-size: 600%;
+  font-size: 300%;
 }
 p{
+  width: 100%;
 }
 .text span{
   font-weight: bold;
@@ -22,4 +23,17 @@ p{
 }
 .error{
   color:red;
+}
+.tips{
+  font-size: 30%;
+  color: #008dd7;
+}
+.launch{
+  background-color: #008dd7;
+  width: 30%;
+  margin: auto;
+  border:2px solid white;
+  border-radius: 5%;
+  margin-bottom: 15%;
+  cursor: pointer;
 }

@@ -79,7 +79,6 @@ class MainController {
 "Can you hold this for me",
 "Can you please say that again",
 "Can you recommend a good restaurant",
-"Can you repeat that please",
 "Can you show me",
 "Can you speak louder please",
 "Can you swim",
@@ -575,66 +574,78 @@ class MainController {
             if(window.speechSynthesis) {
                 speech.sayText(msg, config);
             } else {
-                $scope.support = 'Speech not Supported in this browser';
+                $scope.sentenceToSay = 'Speech not Supported in this browser,use Google Chrome';
             }
 
         }
-        var sentenceNum=Math.floor(Math.random() * 11);
+        var sentenceNum=Math.floor(Math.random() * 555);
         $scope.sentenceToSay = sentences[sentenceNum];
-        $timeout( function(){ $scope.submitEntry($scope.sentenceToSay)} , 1000);
-    
+        $scope.launched=false;
+        $scope.launch = function(){
+            $scope.launched=true;
+            vm.init();
+            $scope.submitEntry($scope.sentenceToSay)
+        }
         var sentencesDone = 0;
         vm.init = function() {
             vm.clearResults();
 
             AnnyangService.addCommand('*allSpeech', function(allSpeech) {
-                console.debug(allSpeech);
-                AnnyangService.stop();
+                //AnnyangService.stop();
                 vm.addResult(allSpeech);
-            });
-            
-            AnnyangService.start({ autoRestart: false, continuous: false });
+            });     
+            AnnyangService.start({ autoRestart: true,continuous: true });
         };
         
         vm.addResult = function(result) {
-        	result = result.toLowerCase().split(" ")
-            $scope.result=result
-        	$scope.sentenceWords = sentences[sentenceNum].toLowerCase().split(" ")
-            console.log(result);
-            console.log($scope.sentenceWords)
-        	var okay = true;
-        	for (var i = 0; i < result.length; i++) {
-        		if(result[i] === $scope.sentenceWords[i]){
-		        	okay = true && okay;
-        		}
-        		else{
-        			okay = false && okay;
-        		}
-        		if (i===result.length-1){
-        			if (okay){
-        				sentenceNum=Math.floor(Math.random() * 594);
-                        console.log(sentenceNum)
-                        $scope.submitEntry("Good !"); 
-		        		$scope.sentenceToSay = sentences[sentenceNum];
-                        $scope.result=null
-        			}
-        			// $scope.results.push({
-		         //        content: result,
-		         //        date: new Date()
-		         //    });
-                    $timeout(function(){
-                        AnnyangService.start({ autoRestart: false, continuous: false });      
-                        $scope.submitEntry($scope.sentenceToSay);   
-                    },1000)		
-        		}
-        	};
+            result = result.toLowerCase()
+            console.log("result="+result)
+            if (result.indexOf("repeat")>=0){
+                $scope.submitEntry("I repeat");
+                $scope.submitEntry($scope.sentenceToSay);
+            }
+            else if (result.indexOf("skip")>=0){
+                $scope.submitEntry("Ok we skip this sentence");
+                sentenceNum=Math.floor(Math.random() * 555);
+                $scope.sentenceToSay = sentences[sentenceNum];
+                $scope.result=null
+                $timeout(function(){     
+                    $scope.submitEntry($scope.sentenceToSay);   
+                },1000)   
+            }
+            else{
+                result = result.split(" ")
+                $scope.result=result
+                $scope.sentenceWords = sentences[sentenceNum].toLowerCase().split(" ")
+                var okay = true;
+                for (var i = 0; i < result.length; i++) {
+                    if(result[i] === $scope.sentenceWords[i]){
+                        okay = true && okay;
+                    }
+                    else{
+                        okay = false && okay;
+                    }
+                    if (i===result.length-1){
+                        result[0]=result[0][0].toUpperCase()+result[0].slice(1);
+                        if (okay){
+                            sentenceNum=Math.floor(Math.random() * 555);
+                            $scope.submitEntry("Good !"); 
+                            $scope.sentenceToSay = sentences[sentenceNum];
+                            $scope.result=null
+                        }
+                        $timeout(function(){     
+                            $scope.submitEntry($scope.sentenceToSay);   
+                        },1000)     
+                    }
+                };                
+            }
+
         };
         
         vm.clearResults = function() {
             $scope.results = [];
         };
 
-        vm.init();
   }
 }
 
